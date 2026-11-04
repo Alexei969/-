@@ -8,3 +8,13 @@ i_sku    = header.index("sku")
 i_qty    = header.index("quantity")
 i_price  = header.index("price")
 i_status = header.index("status")
+seen_orders = []          
+orders = {}               
+revenue = {}
+for line in lines[1:]:
+    line = line.strip()
+    if line == "":
+        continue
+
+    parts = line.split(",")
+    order_id = parts[i_id].strip()    
