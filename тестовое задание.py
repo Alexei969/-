@@ -21,10 +21,52 @@ for line in lines[1:]:
     if order_id in seen_orders:
         continue
     seen_orders.append(order_id)  
-quantity = parts[i_qty].strip()
-if quantity == "":
-    continue
-sku   = parts[i_sku].strip()
-date   = parts[i_date].strip()
-price  = int(parts[i_price].strip())
-status = parts[i_status].strip().lower()
+    quantity = parts[i_qty].strip()
+    if quantity == "":
+        continue
+    sku   = parts[i_sku].strip()
+    date   = parts[i_date].strip()
+    price  = int(parts[i_price].strip())
+    status = parts[i_status].strip().lower()
+    if status == "canceled":
+            status = "cancelled"
+
+        
+    key = (sku, date)
+
+        
+    if key in orders:
+        orders[key] = orders[key] + 1
+    else:
+        orders[key] = 1
+
+        
+    if status == "delivered":
+        money = int(quantity) * price
+        if key in revenue:
+            revenue[key] = revenue[key] + money
+        else:
+            revenue[key] = money
+
+
+keys = list(orders.keys())
+keys.sort()
+
+
+out = open("daily_by_sku.csv", "w", encoding="utf-8")
+out.write("sku,order_date,orders,revenue\n")
+
+for key in keys:
+    sku = key[0]
+    date = key[1]
+    o = orders[key]
+
+    if key in revenue:
+        r = revenue[key]
+    else:
+        r = 0
+    out.write(sku + "," + date + "," + str(o) + "," + str(r) + "\n")
+
+out.close()
+
+print("Готово! Результат в daily_by_sku.csv")
