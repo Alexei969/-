@@ -21,3 +21,10 @@ for line in lines[1:]:
     if order_id in seen_orders:
         continue
     seen_orders.append(order_id)  
+quantity = parts[i_qty].strip()
+if quantity == "":
+    continue
+sku   = parts[i_sku].strip()
+date   = parts[i_date].strip()
+price  = int(parts[i_price].strip())
+status = parts[i_status].strip().lower()
