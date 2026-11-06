@@ -17,4 +17,7 @@ for line in lines[1:]:
         continue
 
     parts = line.split(",")
-    order_id = parts[i_id].strip()    
+    order_id = parts[i_id].strip()  
+    if order_id in seen_orders:
+        continue
+    seen_orders.append(order_id)  
